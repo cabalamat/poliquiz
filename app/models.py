@@ -7,15 +7,108 @@ from bozen import FormDoc, MonDoc
 from bozen import (StrField, ChoiceField, TextAreaField,
     IntField, FloatField, BoolField,
     MultiChoiceField, FK, FKeys,
-    DateField, DateTimeField)
+    DateField, DateTimeField, BzDateTime)
 
 import config
 bozen.setDefaultDatabase(config.DB_NAME)
 import allpages
 bozen.notifyFlaskForAutopages(allpages.app, allpages.jinjaEnv)
 
+import userdb
+
 #---------------------------------------------------------------------
 
+DECADE_BORN_CHOICES = [
+    ('1920', "1920s or earlier"),  
+    ('1930', "1930s"),  
+    ('1940', "1940s"),  
+    ('1950', "1950s"),  
+    ('1960', "1960s"),  
+    ('1970', "1970s"),  
+    ('1980', "1980s"),  
+    ('1990', "1990s"),  
+    ('2000', "2000s"),  
+    ('2010', "2010s"),  
+    ('2020', "2020s"),
+]    
+
+RELIGION_CHOICES = [
+    "Baha'i",
+    "Buddhism",
+    "Christianity - Catholic",  
+    "Christianity - Orthodox", 
+    "Christianity - Protestant",   
+    "Christianity - Other",  
+    "Hinduism",   
+    "Islam - Sunni",       
+    "Islam - Shia",       
+    "Judaism",  
+    "Shinto",
+    "Sikh",
+    "Taoism",
+    "Atheism", 
+    "Agnostic / Non-religious",
+    "Other",
+]    
+
+class UserDemographics(MonDoc):
+    """ demographics of a user """
+    
+    decadeBorn = ChoiceField(
+        desc="which decade were you born in",
+        choices=DECADE_BORN_CHOICES,
+        showNull=True, allowNull=False)
+    religionBroughtUp = ChoiceField(
+        desc="religion you were brought up in",
+        choices=RELIGION_CHOICES,
+        showNull=True, allowNull=False)
+    religionNow = ChoiceField(
+        desc="religion you are now",
+        choices=RELIGION_CHOICES,
+        showNull=True, allowNull=False)
+    
+    savedAt = DateTimeField(desc="when the data was saved", 
+        readOnly=True)
+     
+    @classmethod
+    def classLogo(cls):
+        return "<i class='fa fa-male'></i> "
+ 
+#---------------------------------------------------------------------
+
+class Question(MonDoc):
+    text = StrField(desc="text of question", minLength=10)
+    savedAt = DateTimeField(desc="when the question was saved", 
+        readOnly=True)
+     
+    @classmethod
+    def classLogo(cls):
+        return "<i class='fa fa-question-circle-o'></i> "
+    
+    def preSave(self):
+        self.savedAt = BzDateTime.now()
+
+Question.autopages()    
+  
+#---------------------------------------------------------------------
+
+class Answer(MonDoc):
+    """ an answer by a user to a question """
+    
+    user_id = FK(userdb.User)
+    question_id = FK(Question)
+    savedAt = DateTimeField(desc="when the question was answered", 
+        readOnly=True)
+    ans = StrField(desc="the user's answer to the question") 
+ 
+    @classmethod
+    def classLogo(cls):
+        return "<i class='fa fa-check-square-o'></i> "
+    
+    def preSave(self):
+        self.savedAt = BzDateTime.now()
+
+Answer.autopages()    
 
 #---------------------------------------------------------------------
 # admin site

@@ -92,11 +92,19 @@ Uses SB-Admin
         <i class="fa fa-user"></i>
         Users</a></li>
     
-
       <li{{hpic('question')}}><a href="/questions">
-        <i class="fa fa-star"></i>    
+        <i class="fa fa-question-circle-o"></i>    
         Questions</a></li>
+  
+      <li{{hpic('answer')}}><a href="/answers">
+        <i class="fa fa-check-square-o"></i>    
+        Answers</a></li>
         
+    {% if currentUserName() %}
+      <li{{hpic('demographics')}}><a href="/demographics">
+        <i class="fa fa-male"></i>    
+        Demographics</a></li>
+    {% endif %} 
         
   </ul>
 </div>
