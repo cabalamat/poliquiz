@@ -10,5 +10,16 @@ Front page
 
 <p>Enter your demographic information in the form below.</p>
 
+<form method=POST>
+{{ud.buildForm()}}
+{{msg}}
+
+<p><br>
+<button class='btn btn-success'><i class='fa fa-save'></i>
+Save Changes
+</button>
+</p>
+</form>
+
 {% endblock body %}
 {# end #}

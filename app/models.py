@@ -54,6 +54,10 @@ RELIGION_CHOICES = [
 class UserDemographics(MonDoc):
     """ demographics of a user """
     
+    _id = StrField(desc="User id", title="User Id",
+        displayInForm=False,
+        required=True, readOnly=True)
+    
     decadeBorn = ChoiceField(
         desc="which decade were you born in",
         choices=DECADE_BORN_CHOICES,
@@ -67,13 +71,21 @@ class UserDemographics(MonDoc):
         choices=RELIGION_CHOICES,
         showNull=True, allowNull=False)
     
-    savedAt = DateTimeField(desc="when the data was saved", 
+    savedAt = DateTimeField(desc="when the data was saved",
+        displayInForm=False,
         readOnly=True)
      
     @classmethod
     def classLogo(cls):
         return "<i class='fa fa-male'></i> "
  
+def getUserDemographics(userId: str) -> UserDemographics:
+    """ get user demographics object, creating it if necessary """
+    ai = UserDemographics.getDoc(userId)
+    if not ai:
+        ai = UserDemographics(_id=userId)
+    return ai    
+
 #---------------------------------------------------------------------
 
 class Question(MonDoc):
