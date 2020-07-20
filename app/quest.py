@@ -1,0 +1,119 @@
+# quest.py = code for processing questions
+
+from typing import List
+
+from bozen.butil import dpr, htmlEsc, form
+
+#---------------------------------------------------------------------
+
+class Question:
+    def askH(self)->str: 
+        h = form("""
+<p class='question'><i class='fa fa-question-circle-o'></i>
+{qtext}</p>""",
+           qtext = htmlEsc(self.qtext))
+        return h
+
+
+class MultiChoiceQuestion(Question):
+    def __init__(self, qid: str, qtext: str, answers: List[str]):
+        self.qid = qid
+        self.qtext = qtext
+        self.answers = answers
+        
+    def askH(self)->str: 
+        h = super().askH()
+        for ans in self.answers:
+            h += form("""\
+&nbsp; <input type=radio id="{qid}" name="{qid}" value="">
+<span class='answer'>    
+    <span class='answer-mc'>
+    <i class='fa fa-dot-circle-o'></i>
+    {ans}</span>
+</span><br>             
+""",          
+                qid = self.qid,
+                ans = htmlEsc(ans))
+        #//for ans
+        h += form("""\
+&nbsp; <input type=radio id="{qid}" name="{qid}" value="">
+<span class='answer">   
+    <span class='answer-mc'>
+    <i class='fa fa-dot-circle-o'></i>
+    {ans}</span>
+</span><br>
+""",          
+            qid = self.qid,
+            ans = htmlEsc("Don't know / other"))
+        return h
+        
+
+#---------------------------------------------------------------------
+
+AD_ANS = [ # class, text, value
+   ("answer-agree", "Strongly agree", "2"), 
+   ("answer-agree", "Agree", "1"), 
+   ("answer-neutral", "Neutral", "0"), 
+   ("answer-disagree", "Disagree", "-1"), 
+   ("answer-disagree", "Strongly disagree", "-2"),  
+   ("answer-dk", "Don't know / other", "DK"),    
+]    
+
+class AgreeDisagreeQuestion(Question):
+    def __init__(self, qid: str, qtext: str):
+        self.qid = qid
+        self.qtext = qtext
+      
+    def askH(self)->str: 
+        h = super().askH()
+        for ansClass, ansText, ansVal in AD_ANS:
+            h += form("""\
+&nbsp;&nbsp; <input type=radio id="{qid}" name="{qid}" value="{ansVal}">
+<span class='answer">        
+    <span class='{ansClass}'>
+    <i class='fa fa-dot-circle-o'></i>
+    {ansText}</span>
+</span><br>
+""",          
+                qid = self.qid,
+                ansClass = htmlEsc(ansClass),
+                ansVal = htmlEsc(ansVal),
+                ansText = htmlEsc(ansText))
+        #//for ans
+        return h  
+
+
+#---------------------------------------------------------------------
+
+qList = []
+
+def questionListH():
+    """ ask the questionms in the question list, as HTML """
+    h = ""
+    for q in qList:
+        h += q.askH() + "\n"
+    return h    
+
+def qid()->str:
+    """ return an identity string for the next question """
+    ids = form("Q{}", len(qList))
+    return ids
+
+def group(gTitle: str):
+    """ set a group of questions """
+
+
+#---------------------------------------------------------------------
+
+def mcq(qtext: str, answers: List[str]):
+    global qList
+    q = MultiChoiceQuestion(qid(), qtext, answers)
+    qList += [q]
+
+def adq(qtext: str):
+    global qList
+    q = AgreeDisagreeQuestion(qid(), qtext)
+    qList += [q]
+
+
+#end

@@ -1,0 +1,25 @@
+{# askq.html
+   =========
+
+Ask some questions
+#}
+{% extends "main.html" %}
+
+{% block body %}
+<h1><i class="fa fa-question-circle-o"></i> Asking some Questions</h1>
+
+<p>Here are some questions to answer...</p>
+
+<form method=POST>
+{{qs}}
+{{msg}}
+
+<p><br>
+<button class='btn btn-success'><i class='fa fa-save'></i>
+Save Changes
+</button>
+</p>
+</form>
+
+{% endblock body %}
+{# end #}

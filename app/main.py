@@ -21,6 +21,8 @@ import models
 import login
 import front
 import demog
+import askquestions
+import reviewqa
 
 
 #---------------------------------------------------------------------

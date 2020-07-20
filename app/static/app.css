@@ -771,5 +771,29 @@ input[type=checkbox], input[type=radio] {
 }
 
 /*------------------------------------------------------------------*/
+/* for poliquiz */
+
+.question { 
+    font-weight: bold;
+    color: #fff; 
+    background: #56e;
+    padding: 2px 8px;
+    //border: 2px solid #66f;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+.answer {
+    margin-left: 20px;    
+}    
+
+.answer-mc       { color: #060; }
+.answer-agree    { color: #060; }
+.answer-disagree { color: #600; }
+.answer-neutral  { color: #440; }
+.answer-dk       { color: #444; }
+
+
+/*------------------------------------------------------------------*/
 
 /*end */
