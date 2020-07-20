@@ -83,24 +83,64 @@ class AgreeDisagreeQuestion(Question):
         return h  
 
 
+
 #---------------------------------------------------------------------
 
-qList = []
+class Group:
+    """ a group of questions """
+    
+    id: str = ""
+    title: str = ""
+    questions: List[Question] = []
+    
+    def __init__(self, id, title):
+        self.id = id
+        self.title = title
+        self.questions = []
+    
+#---------------------------------------------------------------------
+
+class QuestionManager:
+    """ handles groups of questions """
+    
+    questions: List[Question] = []
+    groups: List[Group] = []
+    
+    def __init__(self):
+        self.questions = []
+        self.groups = []
+    
+    def setCurrentGroup(self, g: Group):
+        self.groups += [g]
+        
+    def getGroups(self) -> List[Group]:
+        """ return all the groups this QuestionManager has """
+        return self.groups
+        
+    def addQuestion(self, q):
+        self.questions += [q]
+        self.groups[-1].questions += [q]
+    
+questionManager = QuestionManager()    
+
+#---------------------------------------------------------------------
 
 def questionListH():
     """ ask the questionms in the question list, as HTML """
     h = ""
-    for q in qList:
+    for q in questionManager.questions:
         h += q.askH() + "\n"
     return h    
 
 def qid()->str:
     """ return an identity string for the next question """
-    ids = form("Q{}", len(qList))
+    ids = form("Q{}", len(questionManager.questions))
     return ids
 
-def group(gTitle: str):
+def group(gId:str, gTitle: str):
     """ set a group of questions """
+    g = Group(gId, gTitle)
+    questionManager.setCurrentGroup(g)
 
 
 #---------------------------------------------------------------------
@@ -108,12 +148,12 @@ def group(gTitle: str):
 def mcq(qtext: str, answers: List[str]):
     global qList
     q = MultiChoiceQuestion(qid(), qtext, answers)
-    qList += [q]
+    questionManager.addQuestion(q)
 
 def adq(qtext: str):
     global qList
     q = AgreeDisagreeQuestion(qid(), qtext)
-    qList += [q]
+    questionManager.addQuestion(q)
 
 
 #end
