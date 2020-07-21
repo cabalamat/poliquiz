@@ -3,7 +3,7 @@
 from flask import request, redirect
 
 from allpages import app, jinjaEnv
-from bozen.butil import pr, prn, form, htmlEsc
+from bozen.butil import pr, prn, dpr, form, htmlEsc
 
 import permission
 from permission import needUser
@@ -40,19 +40,22 @@ def calcGroupTable(userName: str) -> str:
 """    
     groups = questionManager.getGroups()
     for group in groups:
+        dpr("group.id=%r", group.id)
         h += form("""
 <tr>
     <td><a href="/group/{groupId}">{groupName}</a></td>
     <td>{numAnswered}</td>
-    <td><a href="ask/{groupId}">{numUnanswered}</a>/{numTotal}</td>
+    <td><a href="/ask/{groupId}">{numUnanswered}</a>/{numTotal}</td>
     <td>(details)</td>
 </tr>            
 """,
             groupId = htmlEsc(group.id),
+            numQs = 5,
             groupName = htmlEsc(group.title),
             numAnswered = 0,
             numUnanswered = len(group.questions),
             numTotal = len(group.questions),
+            
         )
     #//for    
     h += "</table>\n"

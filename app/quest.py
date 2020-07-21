@@ -1,6 +1,6 @@
 # quest.py = code for processing questions
 
-from typing import List
+from typing import List, Optional
 
 from bozen.butil import dpr, htmlEsc, form
 
@@ -13,7 +13,6 @@ class Question:
 {qtext}</p>""",
            qtext = htmlEsc(self.qtext))
         return h
-
 
 class MultiChoiceQuestion(Question):
     def __init__(self, qid: str, qtext: str, answers: List[str]):
@@ -82,8 +81,6 @@ class AgreeDisagreeQuestion(Question):
         #//for ans
         return h  
 
-
-
 #---------------------------------------------------------------------
 
 class Group:
@@ -116,6 +113,12 @@ class QuestionManager:
     def getGroups(self) -> List[Group]:
         """ return all the groups this QuestionManager has """
         return self.groups
+    
+    def getGroup(self, groupId: str) -> Optional[Group]:
+        """ return the group whose id is (groupId) """
+        for g in self.groups:
+            if g.id == groupId: return g
+        return None
         
     def addQuestion(self, q):
         self.questions += [q]

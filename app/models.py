@@ -88,27 +88,11 @@ def getUserDemographics(userId: str) -> UserDemographics:
 
 #---------------------------------------------------------------------
 
-class Question(MonDoc):
-    text = StrField(desc="text of question", minLength=10)
-    savedAt = DateTimeField(desc="when the question was saved", 
-        readOnly=True)
-     
-    @classmethod
-    def classLogo(cls):
-        return "<i class='fa fa-question-circle-o'></i> "
-    
-    def preSave(self):
-        self.savedAt = BzDateTime.now()
-
-Question.autopages()    
-  
-#---------------------------------------------------------------------
-
 class Answer(MonDoc):
     """ an answer by a user to a question """
     
     user_id = FK(userdb.User)
-    question_id = FK(Question)
+    question_id = StrField(desc="ID of question")
     savedAt = DateTimeField(desc="when the question was answered", 
         readOnly=True)
     ans = StrField(desc="the user's answer to the question") 
