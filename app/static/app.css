@@ -784,7 +784,7 @@ input[type=checkbox], input[type=radio] {
 }
 
 .answer {
-    margin-left: 20px;    
+    //margin-left: 20px;    
 }    
 
 .answer-mc       { color: #060; }

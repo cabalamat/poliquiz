@@ -1,8 +1,32 @@
 # quest.py = code for processing questions
 
-from typing import List, Optional
+from typing import List, Optional, Union, Tuple
 
 from bozen.butil import dpr, htmlEsc, form
+
+#---------------------------------------------------------------------
+# html for questions
+
+def answerChoiceRB(qid:str, 
+        ansClass:str, ansVal: str, ansText: str) -> str:
+    """ return html for a radio button for an answer to a question.
+    qid = question ID
+    ansClass = CSS class for this answer
+    ansVal = value for answer in the database
+    ansText = value for answer to be displayed
+    """
+    h = form("""\
+&nbsp; <input type=radio id="{qid}" name="{qid}" value="{ansVal}">
+<span class='answer {ansClass}'>
+    {ans}
+</span><br>             
+""",         
+        qid = htmlEsc(qid),
+        ansClass = ansClass,
+        ansVal = htmlEsc(ansVal),
+        ans = htmlEsc(ansText)
+    )
+    return h
 
 #---------------------------------------------------------------------
 
@@ -14,48 +38,64 @@ class Question:
            qtext = htmlEsc(self.qtext))
         return h
 
+
+MultiChoiceAnswer=Union[Tuple[str,str],str]
+MultiChoiceAnswers = List[MultiChoiceAnswer]
+NormalizedMCAnswers = List[Tuple[str,str]]
+
+def strNVal(i: int) -> str:
+    """ convert numbers to strings to get 'A', 'B', 'C'...Z..Z001 etc """
+    if i >=0 and i<= 25:
+        return chr(ord('A')+i)
+    else:
+        return "Z%03d"%(i,)
+
+def normalizeMCA(answers: MultiChoiceAnswers) -> NormalizedMCAnswers:
+    result = []
+    nextVal = 0
+    for answer in answers:
+        if isinstance(answer,tuple):
+            result += [answer]
+        else:
+            result += [(strNVal(nextVal), answer)]
+            nextVal += 1
+    #//for    
+    return result
+
 class MultiChoiceQuestion(Question):
     def __init__(self, qid: str, qtext: str, answers: List[str]):
+        """ (answers) is of the form:
+            [ ('A', "Answer 1"),
+              ('B', "Answer 2")]
+        
+        with the internal value preceding the display string. If the
+        tuple is replaced by a str, the internal values become 'A', 'B', etc        
+        """
         self.qid = qid
         self.qtext = qtext
-        self.answers = answers
+        self.answers = normalizeMCA(answers)
+
         
     def askH(self)->str: 
         h = super().askH()
-        for ans in self.answers:
-            h += form("""\
-&nbsp; <input type=radio id="{qid}" name="{qid}" value="">
-<span class='answer'>    
-    <span class='answer-mc'>
-    <i class='fa fa-dot-circle-o'></i>
-    {ans}</span>
-</span><br>             
-""",          
-                qid = self.qid,
-                ans = htmlEsc(ans))
+        for ansVal, ansText in self.answers:
+            h += answerChoiceRB(self.qid, "answer-mc", ansVal, ansText)
         #//for ans
-        h += form("""\
-&nbsp; <input type=radio id="{qid}" name="{qid}" value="">
-<span class='answer">   
-    <span class='answer-mc'>
-    <i class='fa fa-dot-circle-o'></i>
-    {ans}</span>
-</span><br>
-""",          
-            qid = self.qid,
-            ans = htmlEsc("Don't know / other"))
+        
+        dk = "Don't know / other"
+        h += answerChoiceRB(self.qid, "answer-dk", "--", "Don't know / other")
         return h
         
 
 #---------------------------------------------------------------------
 
-AD_ANS = [ # class, text, value
-   ("answer-agree", "Strongly agree", "2"), 
-   ("answer-agree", "Agree", "1"), 
-   ("answer-neutral", "Neutral", "0"), 
-   ("answer-disagree", "Disagree", "-1"), 
-   ("answer-disagree", "Strongly disagree", "-2"),  
-   ("answer-dk", "Don't know / other", "DK"),    
+AD_ANS = [ # class, value, text,
+   ("answer-agree",    "2",  "Strongly agree"), 
+   ("answer-agree",    "1",  "Agree"), 
+   ("answer-neutral",  "0",  "Neutral"), 
+   ("answer-disagree", "-1", "Disagree"), 
+   ("answer-disagree", "-2", "Strongly disagree"),  
+   ("answer-dk",       "--", "Don't know / other"),    
 ]    
 
 class AgreeDisagreeQuestion(Question):
@@ -65,19 +105,8 @@ class AgreeDisagreeQuestion(Question):
       
     def askH(self)->str: 
         h = super().askH()
-        for ansClass, ansText, ansVal in AD_ANS:
-            h += form("""\
-&nbsp;&nbsp; <input type=radio id="{qid}" name="{qid}" value="{ansVal}">
-<span class='answer">        
-    <span class='{ansClass}'>
-    <i class='fa fa-dot-circle-o'></i>
-    {ansText}</span>
-</span><br>
-""",          
-                qid = self.qid,
-                ansClass = htmlEsc(ansClass),
-                ansVal = htmlEsc(ansVal),
-                ansText = htmlEsc(ansText))
+        for ansClass, ansVal, ansText in AD_ANS:
+            h += answerChoiceRB(self.qid, ansClass, ansVal, ansText)
         #//for ans
         return h  
 
@@ -148,7 +177,11 @@ def group(gId:str, gTitle: str):
 
 #---------------------------------------------------------------------
 
-def mcq(qtext: str, answers: List[str]):
+
+MultiChoiceAnswer=Union[Tuple[str,str],str]
+MultiChoiceAnswers = List[MultiChoiceAnswer]
+
+def mcq(qtext: str, answers: MultiChoiceAnswers):
     global qList
     q = MultiChoiceQuestion(qid(), qtext, answers)
     questionManager.addQuestion(q)

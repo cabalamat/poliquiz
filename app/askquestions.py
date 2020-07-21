@@ -41,12 +41,15 @@ def ask(groupId, numQs=5):
     
     unansweredQs = getUnansweredQs(group, currentUserName())
     qListH = getQuestionsH(unansweredQs)
+    numAns = len(group.questions) - len(unansweredQs)
     
     tem = jinjaEnv.get_template("ask.html")
     h = tem.render(
         group = group,
         groupTitle = htmlEsc(group.title),
         groupId = htmlEsc(group.id),
+        numQ = len(group.questions),
+        numAns = numAns,
         qs = qListH,
     )
     return h

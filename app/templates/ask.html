@@ -6,9 +6,11 @@ Ask some questions
 {% extends "main.html" %}
 
 {% block body %}
-<h1><i class="fa fa-question-circle-o"></i> Ask</h1>
+<h1><i class="fa fa-question-circle-o"></i> Ask
+<small>Section: {{groupId}} - {{groupTitle}}</small></h1>
 
-<p>Here are some questions to answer...</p>
+<p>For "{{groupTitle}}", you have answered {{numAns}}/{{numQ}}
+questions.</p>
 
 <form method=POST>
 {{qs}}
