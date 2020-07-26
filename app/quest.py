@@ -4,6 +4,8 @@ from typing import List, Optional, Union, Tuple
 
 from bozen.butil import dpr, htmlEsc, form
 
+import idnlib
+
 #---------------------------------------------------------------------
 # html for questions
 
@@ -18,7 +20,7 @@ def answerChoiceRB(qid:str,
     h = form("""\
 &nbsp; <input type=radio id="{qid}" name="{qid}" value="{ansVal}">
 <span class='answer {ansClass}'>
-    {ans}
+    [{ansVal}] {ans}
 </span><br>             
 """,         
         qid = htmlEsc(qid),
@@ -34,8 +36,9 @@ class Question:
     def askH(self)->str: 
         h = form("""
 <p class='question'><i class='fa fa-question-circle-o'></i>
-{qtext}</p>""",
-           qtext = htmlEsc(self.qtext))
+[{qid}] {qtext}</p>""",
+            qid = htmlEsc(self.qid),
+            qtext = htmlEsc(self.qtext))
         return h
 
 
@@ -164,14 +167,9 @@ def questionListH():
         h += q.askH() + "\n"
     return h    
 
-def qid()->str:
-    """ return an identity string for the next question """
-    ids = form("Q{}", len(questionManager.questions))
-    return ids
-
-def group(gId:str, gTitle: str):
+def group(gTitle: str):
     """ set a group of questions """
-    g = Group(gId, gTitle)
+    g = Group(idnlib.makeId(gTitle), gTitle)
     questionManager.setCurrentGroup(g)
 
 
@@ -183,12 +181,12 @@ MultiChoiceAnswers = List[MultiChoiceAnswer]
 
 def mcq(qtext: str, answers: MultiChoiceAnswers):
     global qList
-    q = MultiChoiceQuestion(qid(), qtext, answers)
+    q = MultiChoiceQuestion(idnlib.makeId(qtext), qtext, answers)
     questionManager.addQuestion(q)
 
 def adq(qtext: str):
     global qList
-    q = AgreeDisagreeQuestion(qid(), qtext)
+    q = AgreeDisagreeQuestion(idnlib.makeId(qtext), qtext)
     questionManager.addQuestion(q)
 
 

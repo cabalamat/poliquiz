@@ -5,6 +5,7 @@ from typing import List, Set, Optional
 from flask import request, redirect
 
 from allpages import app, jinjaEnv
+from bozen import butil
 from bozen.butil import pr, prn, dpr, form, htmlEsc
 
 from permission import *
@@ -30,18 +31,37 @@ def askq():
 
 #---------------------------------------------------------------------
 
+DEFAULT_NUM_QS = 5
+
 @app.route('/ask/<groupId>', methods=['POST', 'GET'])
 @app.route('/ask/<groupId>/<numQs>', methods=['POST', 'GET'])
 @needUser
-def ask(groupId, numQs=5):
-    dpr("groupId={}, numQs={}", groupId, numQs)
+def ask(groupId, numQs=DEFAULT_NUM_QS):
+    numQs = butil.exValue(lambda: int(numQs), DEFAULT_NUM_QS)
+    dpr("groupId=%r, numQs=%r", groupId, numQs)
     group = questionManager.getGroup(groupId)
     if not group:
         return http403("Group does not exist")
     
-    unansweredQs = getUnansweredQs(group, currentUserName())
-    qListH = getQuestionsH(unansweredQs)
+    cun = currentUserName()
+    unansweredQs = getUnansweredQs(group, cun)
+    qsToAsk = unansweredQs[:numQs]
+    qListH = getQuestionsH(qsToAsk)
     numAns = len(group.questions) - len(unansweredQs)
+    
+    if request.method=='POST':
+        rf = dict(request.form)
+        dpr("request form data: rf=%r", rf)
+        #...in (rf) keys are quextion ids, vlaues are question values.
+        # if the user hasn't answered a question, it is missing from the 
+        # dictionary
+        for qid, ansVal in rf.items():
+            q = getQ(qsToAsk, qid)
+            if q:
+                models.saveAnswer(cun, q.qid, ansVal)
+        #//for    
+        
+    #//if    
     
     tem = jinjaEnv.get_template("ask.html")
     h = tem.render(
@@ -77,7 +97,15 @@ def getQuestionsH(qs: List[Question]) -> str:
     h = ""
     for q in qs:
         h += q.askH() + "\n"
-    return h    
+    return h   
+
+def getQ(qs: List[Question], qid: str) -> Optional[Question]:
+    """ return a question from a list of questions, if it is in the list.
+    """
+    for q in qs:
+        if q.qid==qid:
+            return q
+    return None    
 
 #---------------------------------------------------------------------
 

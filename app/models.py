@@ -1,5 +1,6 @@
 # models.py = database initilisation for frambozenapp
 
+from typing import Optional
 
 import bozen
 from bozen.butil import *
@@ -105,6 +106,20 @@ class Answer(MonDoc):
         self.savedAt = BzDateTime.now()
 
 Answer.autopages()    
+
+    
+def saveAnswer(userId: str, questionId: str, ansVal: str):
+    """ save an answer to a questiion in ther database.
+    remove all existing answrs to that question by that user.
+    """
+    Answer.delete_many({
+        'user_id': userId, 
+        'question_id': questionId})
+    ans = Answer(
+        user_id = userId,
+        question_id = questionId,
+        ans = ansVal)
+    ans.save()
 
 #---------------------------------------------------------------------
 # admin site

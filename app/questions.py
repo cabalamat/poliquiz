@@ -43,7 +43,7 @@ from quest import mcq, adq, group
 
 #---------------------------------------------------------------------
 
-group("UK-VOTE", "Voting (UK)")
+group("Voting (UK)")
 
 
 mcq("Who did you vote for in the UK general election in December 2019",
@@ -75,12 +75,12 @@ mcq("How did you vote in the Brexit referendum in June 2016",
 #---------------------------------------------------------------------
 # secession
 
-group("SEC_UK", "Secession (UK)")
+group("Secession (UK)")
 
 adq("Britain was right to leave the EU")
 
 adq("""Britain will be economically better off outside the EU 
-than it would be it it had remained in it.""")
+than it would be if it had remained in it.""")
 
 adq("""Britain will have more influence in the world outside the EU 
 than it would have if it had remained in it.""")
@@ -104,7 +104,7 @@ adq("If England leaves the UK, it should rejoin the EU")
 
 #---------------------------------------------------------------------
 
-group("MBTI", "Myers-Briggs")
+group("Myers-Briggs")
 
 adq("Following a schedule appeals to me rather than cramping me")
 adq("""When I am with a group of people I prefer 
