@@ -3,6 +3,8 @@
 from typing import List, Optional, Union, Tuple, Set
 from abc import abstractmethod
 
+import markdown
+
 from bozen.butil import dpr, htmlEsc, form
 
 import idnlib
@@ -158,12 +160,14 @@ class Group:
     
     id: str = ""
     title: str = ""
+    introH = ""
     questions: List[Question] = []
     
-    def __init__(self, id, title):
+    def __init__(self, id, title, intro):
         self.id = id
         self.title = title
         self.questions = []
+        self.introH = 
         
     def questionIds(self) -> Set[str]:
         """ return the ids of all the questions in this group """
@@ -215,10 +219,13 @@ def questionListH():
         h += q.askH() + "\n"
     return h    
 
-def group(gTitle: str):
-    """ set a group of questions """
+def group(gTitle: str, intro: str = ""):
+    """ Create a group of questions. 
+    (gTitle) is the title of the group.
+    (intro) is a markdown-encode introduction to the group.
+    """
     gid = idnlib.makeDistinctId(gTitle, questionManager.groupIds())
-    g = Group(gid, gTitle)
+    g = Group(gid, gTitle, intro)
     questionManager.setCurrentGroup(g)
 
 

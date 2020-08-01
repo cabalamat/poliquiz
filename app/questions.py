@@ -104,9 +104,27 @@ adq("If England leaves the UK, it should rejoin the EU")
 
 #---------------------------------------------------------------------
 
-group("Myers-Briggs")
+group("Myers-Briggs",
+intro="""      
+The **Myers-Briggs Type Inventory** assesses personality over four axes.
 
-adq("Following a schedule appeals to me rather than cramping me")
+These are: 
+
+* Extraversion (E) -- Introversion (I)
+* Sensing (S) -- Intuition (N)
+* Thinking (T) -- Feeling (F)
+* Judgement (J) -- perception (P)
+
+Each question gives you two options labelled (a) and (b). an example question might be:
+
+> Following a schedule (a) appeals to me rather than (b) cramping me
+
+If you agree with (a) select "agree" or "strongly agree". If you prefer (b),
+select  "disagree" or "strongly disagree".
+""")
+
+adq("Following a schedule (a) appeals to me rather than (b) cramping me")
+
 adq("""When I am with a group of people I prefer 
 joining in the talk of the group
 over talking individually with people I know well""")
