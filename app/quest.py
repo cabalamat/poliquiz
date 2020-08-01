@@ -1,6 +1,6 @@
 # quest.py = code for processing questions
 
-from typing import List, Optional, Union, Tuple
+from typing import List, Optional, Union, Tuple, Set
 
 from bozen.butil import dpr, htmlEsc, form
 
@@ -20,7 +20,7 @@ def answerChoiceRB(qid:str,
     h = form("""\
 &nbsp; <input type=radio id="{qid}" name="{qid}" value="{ansVal}">
 <span class='answer {ansClass}'>
-    [{ansVal}] {ans}
+    <tt>[{ansVal}]</tt> {ans}
 </span><br>             
 """,         
         qid = htmlEsc(qid),
@@ -36,7 +36,7 @@ class Question:
     def askH(self)->str: 
         h = form("""
 <p class='question'><i class='fa fa-question-circle-o'></i>
-[{qid}] {qtext}</p>""",
+<tt>[{qid}]</tt> {qtext}</p>""",
             qid = htmlEsc(self.qid),
             qtext = htmlEsc(self.qtext))
         return h
@@ -126,6 +126,10 @@ class Group:
         self.id = id
         self.title = title
         self.questions = []
+        
+    def questionIds(self) -> Set[str]:
+        """ return the ids of all the questions in this group """
+        return set(q.qid for q in self.questions)
     
 #---------------------------------------------------------------------
 
@@ -146,6 +150,10 @@ class QuestionManager:
         """ return all the groups this QuestionManager has """
         return self.groups
     
+    def groupIds(self) -> Set[str]:
+        """ return the ids of all the QuestionManager's groups """
+        return set(g.id for g in self.groups)
+    
     def getGroup(self, groupId: str) -> Optional[Group]:
         """ return the group whose id is (groupId) """
         for g in self.groups:
@@ -154,7 +162,9 @@ class QuestionManager:
         
     def addQuestion(self, q):
         self.questions += [q]
-        self.groups[-1].questions += [q]
+        group = self.groups[-1]
+        q.qid = idnlib.makeDistinctId(q.qtext, group.questionIds())
+        group.questions += [q] 
     
 questionManager = QuestionManager()    
 
@@ -169,7 +179,8 @@ def questionListH():
 
 def group(gTitle: str):
     """ set a group of questions """
-    g = Group(idnlib.makeId(gTitle), gTitle)
+    gid = idnlib.makeDistinctId(gTitle, questionManager.groupIds())
+    g = Group(gid, gTitle)
     questionManager.setCurrentGroup(g)
 
 
@@ -181,12 +192,12 @@ MultiChoiceAnswers = List[MultiChoiceAnswer]
 
 def mcq(qtext: str, answers: MultiChoiceAnswers):
     global qList
-    q = MultiChoiceQuestion(idnlib.makeId(qtext), qtext, answers)
+    q = MultiChoiceQuestion("", qtext, answers)
     questionManager.addQuestion(q)
 
 def adq(qtext: str):
     global qList
-    q = AgreeDisagreeQuestion(idnlib.makeId(qtext), qtext)
+    q = AgreeDisagreeQuestion("", qtext)
     questionManager.addQuestion(q)
 
 

@@ -60,10 +60,14 @@ User style sheet
 
 /*------------------------------------------------------------------*/
 
-tt, pre, code {
+pre {
   font-family: 'Ubuntu Mono', monospace;
   font-size: 15px;
 }
+
+tt, code { 
+  font-family: 'Ubuntu Mono', monospace;
+}  
 
 code {
   color: #000;
