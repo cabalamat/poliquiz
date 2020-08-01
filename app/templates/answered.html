@@ -1,0 +1,18 @@
+{# answered.html
+   =============
+
+Showv the user questions they've answerred in a group.
+#}
+{% extends "main.html" %}
+
+{% block body %}
+<h1><i class='fa fa-check-square-o'></i> Questions Answered
+<small>Section: <tt>[{{groupId}}]</tt> {{groupTitle}}</small></h1>
+
+<p>For "{{groupTitle}}", you have answered {{numAns}}/{{numQs}}
+questions.</p>
+
+{{ansH}}
+
+{% endblock body %}
+{# end #}

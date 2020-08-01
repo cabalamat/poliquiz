@@ -1,6 +1,7 @@
 # quest.py = code for processing questions
 
 from typing import List, Optional, Union, Tuple, Set
+from abc import abstractmethod
 
 from bozen.butil import dpr, htmlEsc, form
 
@@ -33,13 +34,36 @@ def answerChoiceRB(qid:str,
 #---------------------------------------------------------------------
 
 class Question:
-    def askH(self)->str: 
+    def askH(self) -> str: 
+        """ return the question as html """
         h = form("""
 <p class='question'><i class='fa fa-question-circle-o'></i>
 <tt>[{qid}]</tt> {qtext}</p>""",
             qid = htmlEsc(self.qid),
             qtext = htmlEsc(self.qtext))
         return h
+    
+    def answerH(self, ans) -> str:
+        """ return the querstion as html with the answer selected
+        in (ans). 
+        """
+        userAnswerText = self.answerText(ans)
+        h = form("""
+<p class='question'><i class='fa fa-question-circle-o'></i>
+<tt>[{qid}]</tt> {qtext}</p>
+<tt>[{ansVal}]</tt> {ansText}
+<br>
+""",
+            qid = htmlEsc(self.qid),
+            qtext = htmlEsc(self.qtext),
+            ansVal = htmlEsc(ans),
+            ansText = htmlEsc(userAnswerText)
+        )
+        return h
+    
+    @abstractmethod
+    def userAnswerText(self, ans: str) -> str:
+        pass
 
 
 MultiChoiceAnswer=Union[Tuple[str,str],str]
@@ -88,6 +112,13 @@ class MultiChoiceQuestion(Question):
         dk = "Don't know / other"
         h += answerChoiceRB(self.qid, "answer-dk", "--", "Don't know / other")
         return h
+    
+    def answerText(self, ans):
+        r = "???"
+        for ansVal, ansText in self.answers:
+            if ansVal==ans: r = ansText
+        #//for    
+        return r
         
 
 #---------------------------------------------------------------------
@@ -112,6 +143,13 @@ class AgreeDisagreeQuestion(Question):
             h += answerChoiceRB(self.qid, ansClass, ansVal, ansText)
         #//for ans
         return h  
+    
+    def answerText(self, ans):
+        r = ""
+        for ansClass, ansVal, ansText in AD_ANS:
+            if ansVal==ans: r = ansText
+        #//for    
+        return r
 
 #---------------------------------------------------------------------
 
