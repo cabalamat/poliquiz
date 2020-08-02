@@ -9,18 +9,30 @@ Ask some questions
 <h1><i class="fa fa-question-circle-o"></i> Ask
 <small>Section: <tt>[{{groupId}}]</tt> {{groupTitle}}</small></h1>
 
-<p>For "{{groupTitle}}", you have answered {{numAns}}/{{numQ}}
-questions.</p>
+<p>For <a href="/group/{{groupId}}">{{groupTitle}}</a>, 
+you have answered {{numAns}}/{{numQ}} questions.</p>
+
+<h2><i class='fa fa-info-circle'></i> Introduction to {{groupTitle}}</h2>
+
+{{group.introH}}
+
+<h2><i class="fa fa-question-circle-o"></i>
+Your Questions ({{numAsk}} of {{numUnanswered}} remaining)</h2>
+
+<p>In this group there are {{numUnanswered}} questions you haven't already answered. On this page, we are asking you {{numAsk}} of these questions.</p>
 
 <form method=POST>
 {{qs}}
 {{msg}}
 
+{% if numAsk>0 %}
 <p><br>
 <button class='btn btn-success'><i class='fa fa-save'></i>
 Save Changes
-</button>
-</p>
+</button></p>
+{% endif %}
+
+
 </form>
 
 {% endblock body %}

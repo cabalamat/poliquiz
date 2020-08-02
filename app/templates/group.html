@@ -1,0 +1,26 @@
+{# group.html
+   ==========
+
+Information about a group.
+#}
+{% extends "main.html" %}
+
+{% block body %}
+<h1><i class='fa fa-check-square-o'></i> Group <tt>[{{groupId}}]</tt> {{groupTitle}}</h1>
+
+<h2><i class='fa fa-info-circle'></i> Introduction to {{groupTitle}}</h2>
+
+{{group.introH}}
+
+{% if currentUserName() %}
+<h2>See also</h2>
+
+<ul>
+    <li><a href="/answered/{{groupId}}">Questions you've answered</a></li>
+    <li><a href="/ask/{{groupId}}">Questions you haven't answered</a></li>
+</ul>
+
+{% endif %}
+
+{% endblock body %}
+{# end #}

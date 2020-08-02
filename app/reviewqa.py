@@ -82,6 +82,26 @@ def answeredQs(userId: str, qs: List[Question]) -> List[Question]:
         
 
 #---------------------------------------------------------------------
+# information about a group
+
+@app.route('/group/<groupId>')
+def group(groupId):
+    g = questionManager.getGroup(groupId)
+    if not g:
+        return permission.http403("Group does not exist")
+    cun = currentUserName()
+    numQs = len(g.questions)
+    
+    tem = jinjaEnv.get_template("group.html")
+    h = tem.render(
+        group = g,
+        groupId = htmlEsc(g.id),
+        groupTitle = htmlEsc(g.title),
+        numQs = numQs,
+    )
+    return h
+
+#---------------------------------------------------------------------
 # questions the current user has answered in a group
 
 @app.route('/answered/<groupId>')
@@ -98,6 +118,7 @@ def answered(groupId):
     
     tem = jinjaEnv.get_template("answered.html")
     h = tem.render(
+        group = group,
         groupId = htmlEsc(group.id),
         groupTitle = htmlEsc(group.title),
         numQs = numQs,

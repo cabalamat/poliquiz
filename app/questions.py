@@ -43,7 +43,11 @@ from quest import mcq, adq, group
 
 #---------------------------------------------------------------------
 
-group("Voting (UK)")
+group("Voting (UK)",
+intro="""\
+Questions on how you have voted in elections and referendums, 
+in a UK context.
+""")
 
 
 mcq("Who did you vote for in the UK general election in December 2019",
@@ -75,7 +79,13 @@ mcq("How did you vote in the Brexit referendum in June 2016",
 #---------------------------------------------------------------------
 # secession
 
-group("Secession (UK)")
+group("Secession (UK)",
+intro="""\
+Questions on entities leaving other entities, in a UK context.
+
+This contains questions on Brexit and questions on whether the 
+consitutent parts of the UK sohuld split up.
+""")
 
 adq("Britain was right to leave the EU")
 
@@ -115,22 +125,25 @@ These are:
 * Thinking (T) -- Feeling (F)
 * Judgement (J) -- perception (P)
 
-Each question gives you two options labelled (a) and (b). an example question might be:
+Each question gives you two options labelled (a) and (b). An example question might be:
 
-> Following a schedule (a) appeals to me rather than (b) cramping me
+> Following a schedule: (a) appeals to me, rather than (b) cramping me
 
-If you agree with (a) select "agree" or "strongly agree". If you prefer (b),
+If you agree with (a), select "agree" or "strongly agree". If you prefer (b),
 select  "disagree" or "strongly disagree".
 """)
 
-adq("Following a schedule (a) appeals to me rather than (b) cramping me")
+adq("""Following a schedule:
+(a) appeals to me,
+rather than (b) cramping me""")
 
-adq("""When I am with a group of people I prefer 
-joining in the talk of the group
-over talking individually with people I know well""")
+adq("""When I am with a group of people I prefer: 
+(a) joining in the talk of the group,
+over (b) talking individually with people I know well""")
 
-adq("""I usually get along better with realistic people, rather than 
-imaginative people""")
+adq("""I usually get along better with:
+(a) realistic people,
+rather than (b) imaginative people""")
 
 
 #---------------------------------------------------------------------

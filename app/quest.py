@@ -10,6 +10,13 @@ from bozen.butil import dpr, htmlEsc, form
 import idnlib
 
 #---------------------------------------------------------------------
+
+def md(s: str) -> str:
+    """ convert a string from markdown to HTML """
+    h = markdown.markdown(s.strip())
+    return h
+
+#---------------------------------------------------------------------
 # html for questions
 
 def answerChoiceRB(qid:str, 
@@ -167,7 +174,7 @@ class Group:
         self.id = id
         self.title = title
         self.questions = []
-        self.introH = 
+        self.introH = md(intro)
         
     def questionIds(self) -> Set[str]:
         """ return the ids of all the questions in this group """
@@ -222,7 +229,7 @@ def questionListH():
 def group(gTitle: str, intro: str = ""):
     """ Create a group of questions. 
     (gTitle) is the title of the group.
-    (intro) is a markdown-encode introduction to the group.
+    (intro) is a markdown-encoded introduction to the group.
     """
     gid = idnlib.makeDistinctId(gTitle, questionManager.groupIds())
     g = Group(gid, gTitle, intro)

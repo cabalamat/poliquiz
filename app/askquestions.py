@@ -68,8 +68,10 @@ def ask(groupId, numQs=DEFAULT_NUM_QS):
         group = group,
         groupTitle = htmlEsc(group.title),
         groupId = htmlEsc(group.id),
-        numQ = len(group.questions),
-        numAns = numAns,
+        numQ = len(group.questions), # questions in this group
+        numAns = numAns, # q's answered
+        numUnanswered = len(unansweredQs), # q's unanswered
+        numAsk = len(qsToAsk), # q's to ask on this page
         qs = qListH,
     )
     return h

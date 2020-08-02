@@ -53,6 +53,7 @@ wasn't we well were weren't what whatever when
 where whether which while who whom whose why
 will with within without won't would wouldn't yet
 you your yours yourself yourselves
+br a b c i em
 """
 
 functionWords = set(FUNCTION_WORDS.lower().split())
@@ -71,7 +72,9 @@ def makeId(s: str) -> str:
     removes the function words    
     """
     ws = replaceIrrelevant(s).lower().split()
-    ws2 = [w for w in ws if w not in functionWords]
+    ws2 = [w 
+           for w in ws 
+           if w not in functionWords and len(w)>1]
     abbWs = [abbrev(w) for w in ws2]
     abbrStr = "".join(abbWs)
     abbrStr2 = abbrStr[:MAX_LEN]

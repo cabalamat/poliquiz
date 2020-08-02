@@ -9,8 +9,14 @@ Showv the user questions they've answerred in a group.
 <h1><i class='fa fa-check-square-o'></i> Questions Answered
 <small>Section: <tt>[{{groupId}}]</tt> {{groupTitle}}</small></h1>
 
-<p>For "{{groupTitle}}", you have answered {{numAns}}/{{numQs}}
-questions.</p>
+<p>For <a href="/group/{{groupId}}">{{groupTitle}}</a>, 
+you have answered {{numAns}}/{{numQs}} questions.</p>
+
+<h2><i class='fa fa-info-circle'></i> Introduction to {{groupTitle}}</h2>
+
+{{group.introH}}
+
+<h2><i class='fa fa-check-square-o'></i> Your Answers ({{numAns}})</h2>
 
 {{ansH}}
 
