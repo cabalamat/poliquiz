@@ -133,10 +133,6 @@ If you agree with (a), select "agree" or "strongly agree". If you prefer (b),
 select  "disagree" or "strongly disagree".
 """)
 
-adq("""Following a schedule:
-(a) appeals to me,
-rather than (b) cramping me""")
-
 adq("""When I am with a group of people I prefer: 
 (a) joining in the talk of the group,
 over (b) talking individually with people I know well""")
@@ -145,6 +141,78 @@ adq("""I usually get along better with:
 (a) realistic people,
 rather than (b) imaginative people""")
 
+adq("""Of the two words I prefer:
+(a) Analyze,
+over (b) Sympathize""")
+
+adq("""Following a schedule:
+(a) appeals to me,
+rather than (b) cramping me""")
+
+adq("""When I have to meet strangers, I find it:
+(a) pleasant, 
+rather than (b) something that takes a good deal of effort""")
+
+adq("""If I was a teacher, I would rather teach:
+(a) factual courses,   
+rather than (b) courses involving theory""")
+
+adq("""Of the two words I prefer:
+(a) foresight, 
+over (b) compassion""")
+
+adq(""" I prefer to:
+(a) arrange dates, parties, etc., well in advance,     
+rather than (b) be free to do whatever looks like fun when the time comes""")
+
+adq("""I am:
+(a) easy to get to know   
+rather than (b) hard to get to know""")
+
+adq("""It is higher praise to say someone has: 
+(a) common sense,  
+rather than (b) vision""")
+
+adq("""I would rather be thought of as:
+(a) firm, 
+rather than (b) gentle""")
+
+adq("""The idea of making a list of what I should get done over a weekend:
+(a) appeals to me, 
+rather than (b) Leaves me cold""")
+
+adq("""I tend to have:
+(a) broad friendships with many different people, 
+rather than (b) deep friendships with a very few people""")
+
+adq("""I would rather have as a friend someone who:
+(a) has both feet on the ground, 
+rather than (b) is always coming up with new ideas""")
+
+adq("""Of the two words I prefer:
+(a) thinking, 
+over (b) feeling""")
+
+adq("""When it is settled well in advance that I will do a 
+certain thing at a certain time, I find it:
+(a) nice to be able to plan accordingly, 
+rather than (b) a little unpleasant to be tied down""")
+
+adq("""At parties, I:
+(a) always have fun, 
+rather than (b) sometimes get bored""")
+
+adq("""I would rather be considered:
+(a) a practical person, 
+rather than (b) an ingenious person""")
+
+adq("""It is a higher compliment to be called:
+(a) a consistently reasonable person, 
+rather than (b) a person of real feeling""")
+
+adq("""It is harder for me to adapt to:
+(a) constant change, 
+rather than (b) routine""")
 
 #---------------------------------------------------------------------
 

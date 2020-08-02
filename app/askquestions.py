@@ -44,24 +44,24 @@ def ask(groupId, numQs=DEFAULT_NUM_QS):
         return http403("Group does not exist")
     
     cun = currentUserName()
-    unansweredQs = getUnansweredQs(group, cun)
-    qsToAsk = unansweredQs[:numQs]
-    qListH = getQuestionsH(qsToAsk)
-    numAns = len(group.questions) - len(unansweredQs)
     
     if request.method=='POST':
         rf = dict(request.form)
         dpr("request form data: rf=%r", rf)
-        #...in (rf) keys are quextion ids, vlaues are question values.
+        # in (rf) keys are question ids, values are question values.
         # if the user hasn't answered a question, it is missing from the 
         # dictionary
         for qid, ansVal in rf.items():
-            q = getQ(qsToAsk, qid)
+            q = getQ(group.questions, qid)
             if q:
                 models.saveAnswer(cun, q.qid, ansVal)
-        #//for    
-        
-    #//if    
+        #//for
+    #//if
+    
+    unansweredQs = getUnansweredQs(group, cun)
+    qsToAsk = unansweredQs[:numQs]
+    qListH = getQuestionsH(qsToAsk)
+    numAns = len(group.questions) - len(unansweredQs)    
     
     tem = jinjaEnv.get_template("ask.html")
     h = tem.render(
