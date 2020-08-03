@@ -208,6 +208,12 @@ class QuestionManager:
         for g in self.groups:
             if g.id == groupId: return g
         return None
+    
+    def getCurrentGroupId(self) -> str:
+        """ return the id of the current group """
+        if len(self.groups) < 1: return ""
+        g = self.groups[-1]
+        return g.id
         
     def addQuestion(self, q):
         self.questions += [q]
@@ -226,7 +232,12 @@ def questionListH():
         h += q.askH() + "\n"
     return h    
 
-def group(gTitle: str, intro: str = ""):
+#---------------------------------------------------------------------
+
+MultiChoiceAnswer=Union[Tuple[str,str],str]
+MultiChoiceAnswers = List[MultiChoiceAnswer]
+
+def group(gTitle: str, intro: str=""):
     """ Create a group of questions. 
     (gTitle) is the title of the group.
     (intro) is a markdown-encoded introduction to the group.
@@ -235,22 +246,23 @@ def group(gTitle: str, intro: str = ""):
     g = Group(gid, gTitle, intro)
     questionManager.setCurrentGroup(g)
 
-
-#---------------------------------------------------------------------
-
-
-MultiChoiceAnswer=Union[Tuple[str,str],str]
-MultiChoiceAnswers = List[MultiChoiceAnswer]
-
-def mcq(qtext: str, answers: MultiChoiceAnswers):
+def mcq(qtext: str, answers: MultiChoiceAnswers, id: str=""):
     global qList
-    q = MultiChoiceQuestion("", qtext, answers)
+    if id:
+        id = questionManager.getCurrentGroupId() + "-" + id
+    q = MultiChoiceQuestion(id, qtext, answers)
     questionManager.addQuestion(q)
 
-def adq(qtext: str):
+def adq(qtext: str, id: str=""):
     global qList
-    q = AgreeDisagreeQuestion("", qtext)
+    if id:
+        id = questionManager.getCurrentGroupId() + "-" + id
+    q = AgreeDisagreeQuestion(id, qtext)
     questionManager.addQuestion(q)
+
+
+
+
 
 
 #end

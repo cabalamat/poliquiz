@@ -135,84 +135,104 @@ select  "disagree" or "strongly disagree".
 
 adq("""When I am with a group of people I prefer: 
 (a) joining in the talk of the group,
-over (b) talking individually with people I know well""")
+over (b) talking individually with people I know well""", 
+"Q1")
 
 adq("""I usually get along better with:
 (a) realistic people,
-rather than (b) imaginative people""")
+rather than (b) imaginative people""", 
+"Q2")
 
 adq("""Of the two words I prefer:
 (a) Analyze,
-over (b) Sympathize""")
+over (b) Sympathize""", 
+"Q3")
 
 adq("""Following a schedule:
 (a) appeals to me,
-rather than (b) cramping me""")
+rather than (b) cramping me""", 
+"Q4")
 
 adq("""When I have to meet strangers, I find it:
 (a) pleasant, 
-rather than (b) something that takes a good deal of effort""")
+rather than (b) something that takes a good deal of effort""", 
+"Q5")
 
 adq("""If I was a teacher, I would rather teach:
 (a) factual courses,   
-rather than (b) courses involving theory""")
+rather than (b) courses involving theory""", 
+"Q6")
 
 adq("""Of the two words I prefer:
 (a) foresight, 
-over (b) compassion""")
+over (b) compassion""", 
+"Q7")
 
 adq(""" I prefer to:
 (a) arrange dates, parties, etc., well in advance,     
-rather than (b) be free to do whatever looks like fun when the time comes""")
+rather than (b) be free to do whatever looks like fun when the time comes""", 
+"Q8")
 
 adq("""I am:
 (a) easy to get to know   
-rather than (b) hard to get to know""")
+rather than (b) hard to get to know""", 
+"Q9")
 
 adq("""It is higher praise to say someone has: 
 (a) common sense,  
-rather than (b) vision""")
+rather than (b) vision""", 
+"Q10")
 
 adq("""I would rather be thought of as:
 (a) firm, 
-rather than (b) gentle""")
+rather than (b) gentle""", 
+"Q11")
 
 adq("""The idea of making a list of what I should get done over a weekend:
 (a) appeals to me, 
-rather than (b) Leaves me cold""")
+rather than (b) Leaves me cold""", 
+"Q12")
 
 adq("""I tend to have:
 (a) broad friendships with many different people, 
-rather than (b) deep friendships with a very few people""")
+rather than (b) deep friendships with a very few people""", 
+"Q13")
 
 adq("""I would rather have as a friend someone who:
 (a) has both feet on the ground, 
-rather than (b) is always coming up with new ideas""")
+rather than (b) is always coming up with new ideas""", 
+"Q14")
 
 adq("""Of the two words I prefer:
 (a) thinking, 
-over (b) feeling""")
+over (b) feeling""", 
+"Q15")
 
 adq("""When it is settled well in advance that I will do a 
 certain thing at a certain time, I find it:
 (a) nice to be able to plan accordingly, 
-rather than (b) a little unpleasant to be tied down""")
+rather than (b) a little unpleasant to be tied down""", 
+"Q16")
 
 adq("""At parties, I:
 (a) always have fun, 
-rather than (b) sometimes get bored""")
+rather than (b) sometimes get bored""", 
+"Q17")
 
 adq("""I would rather be considered:
 (a) a practical person, 
-rather than (b) an ingenious person""")
+rather than (b) an ingenious person""", 
+"Q18")
 
 adq("""It is a higher compliment to be called:
 (a) a consistently reasonable person, 
-rather than (b) a person of real feeling""")
+rather than (b) a person of real feeling""", 
+"Q19")
 
 adq("""It is harder for me to adapt to:
 (a) constant change, 
-rather than (b) routine""")
+rather than (b) routine""", 
+"Q20")
 
 #---------------------------------------------------------------------
 

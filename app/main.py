@@ -23,6 +23,7 @@ import front
 import demog
 import askquestions
 import reviewqa
+import control
 
 
 #---------------------------------------------------------------------
