@@ -8,5 +8,17 @@ Various cnotrols
 {% block body %}
 <h1><i class="fa fa-sliders"></i> Control Panel</h1>
 
+<p>There are {{numAns}} Answers. 
+<a href="/answers">View Answers</a>.</p>
+
+<p>
+<form method=POST>
+<button class='btn btn-danger'>
+    <i class='fa fa-bomb'></i> 
+    Delete all answers</button>
+</form>    
+</p>    
+
+
 {% endblock body %}
 {# end #}

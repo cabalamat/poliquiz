@@ -16,10 +16,17 @@ import models
 
 #---------------------------------------------------------------------
 
-@app.route('/controlPanel')
+@app.route('/controlPanel', methods=['POST', 'GET'])
 def controlPanel(): 
+    
+    if request.method=='POST':
+        models.Answer.delete_many({}) # delete all answers
+    #//if    
+    numAns = models.Answer.count()
+    
     tem = jinjaEnv.get_template("controlPanel.html")
     h = tem.render(
+        numAns = numAns,
     )
     return h
 
