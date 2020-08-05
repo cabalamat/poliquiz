@@ -9,8 +9,8 @@ from bozen import butil
 from bozen.butil import pr, prn, dpr, form, htmlEsc
 
 from permission import *
-import quest
-from quest import *
+import questlib
+from questlib import *
 import questions
 import models
 

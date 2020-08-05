@@ -39,7 +39,7 @@ Q: Which of these foods do you most like?
 
 """
 
-from quest import mcq, adq, group
+from questlib import mcq, adq, group
 
 #---------------------------------------------------------------------
 

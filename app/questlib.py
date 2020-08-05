@@ -1,4 +1,4 @@
-# quest.py = code for processing questions
+# questlib.py = code for processing questions
 
 from typing import List, Optional, Union, Tuple, Set
 from abc import abstractmethod

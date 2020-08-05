@@ -10,8 +10,8 @@ from bozen.butil import pr, prn, dpr, printargs, form, htmlEsc
 
 import permission
 from permission import needUser, currentUserName
-import quest
-from quest import Question, questionManager
+import questlib
+from questlib import Question, questionManager
 import models
 
 #---------------------------------------------------------------------
