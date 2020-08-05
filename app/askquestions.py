@@ -25,7 +25,7 @@ def askq():
     
     tem = jinjaEnv.get_template("askq.html")
     h = tem.render(
-        qs = quest.questionListH() # get html-formatted list of questions
+        qs = questlib.questionListH() # get html-formatted list of questions
     )
     return h
 

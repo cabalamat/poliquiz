@@ -49,32 +49,57 @@ Questions on how you have voted in elections and referendums,
 in a UK context.
 """)
 
-
 mcq("Who did you vote for in the UK general election in December 2019",
-["Conservatives",    
-"Labour",
-"Liberal Democrats",
-"Scottish National Party (SNP)",
-"Green Party",
-"Brexit Party",
-"Democratic Unionist Party (DUP)",
-"Sinn Féin",
-"Plaid Cymru",
-"Alliance Party",
-"Socal Democratic and Labour Party (SDLP)",
-"Ulster Unionist Party (UUP)",
-"Yorkshire Party",
-"Scottish Green Party",
-"UKIP",
-"Someone else",
-"Didn't vote"]
-)
+[
+    ('Con', "Conservatives"),    
+    ('Lab', "Labour"),
+    ('LD',  "Liberal Democrats"),
+    ('SNP', "Scottish National Party (SNP)"),
+    ('Grn', "Green Party"),
+    ('Brx', "Brexit Party"),
+    ('DUP', "Democratic Unionist Party (DUP)"),
+    ('SF',  "Sinn Féin"),
+    ('PC',  "Plaid Cymru"),
+    ('AP',  "Alliance Party"),
+    ('SDLP',"Social Democratic and Labour Party (SDLP)"),
+    ('UUP', "Ulster Unionist Party (UUP)"),
+    ('York',"Yorkshire Party"),
+    ('SGP', "Scottish Green Party"),
+    ('UKIP',"UKIP"),
+    ('Oth', "Someone else"),
+    ('DV',  "Didn't vote"),
+])
 
+mcq("Who did you vote for in the UK election to the European Parliament"
+" in December 2019",
+[
+    ('Brx', "Brexit Party"),
+    ('LD',  "Liberal Democrats"),
+    ('Lab', "Labour"),
+    ('Grn', "Green Party"),
+    ('Con', "Conservatives"),    
+    ('SNP', "Scottish National Party (SNP)"),
+    ('PC',  "Plaid Cymru"),
+    ('SF',  "Sinn Féin"),
+    ('DUP', "Democratic Unionist Party (DUP)"),
+    ('AP',  "Alliance Party"),    
+    ('CUK', "Change UK"),
+    ('UKIP',"UKIP"),
+    ('SGP', "Scottish Green Party"),
+    ('SDLP',"Social Democratic and Labour Party (SDLP)"),
+    ('UUP', "Ulster Unionist Party (UUP)"),
+    ('York',"Yorkshire Party"),
+    ('Oth', "Someone else"),
+    ('DV',  "Didn't vote"),
+])
+    
+    
 mcq("How did you vote in the Brexit referendum in June 2016",
-["Leave the EU",
-"Remain in the EU",
-"Didn't vote"]
-)
+[
+    ('L', "Leave the EU"),
+    ('R', "Remain in the EU"),
+    ('DV', "Didn't vote"),
+])
 
 #---------------------------------------------------------------------
 # secession

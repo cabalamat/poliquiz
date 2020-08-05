@@ -209,6 +209,12 @@ class QuestionManager:
             if g.id == groupId: return g
         return None
     
+    def xxxgetCurrentGroup(self) -> Optional[Group]:
+        """ return the current group, or None if there isn't one """
+        if len(self.groups) < 1: return None
+        g = self.groups[-1]
+        return g
+    
     def getCurrentGroupId(self) -> str:
         """ return the id of the current group """
         if len(self.groups) < 1: return ""
@@ -218,9 +224,12 @@ class QuestionManager:
     def addQuestion(self, q):
         self.questions += [q]
         group = self.groups[-1]
-        q.qid = idnlib.makeDistinctId(q.qtext, group.questionIds())
+        if not q.qid:
+            q.qid = "%s-%s" % (
+                self.getCurrentGroupId(),
+                idnlib.makeDistinctId(q.qtext, group.questionIds()))
         group.questions += [q] 
-    
+        
 questionManager = QuestionManager()    
 
 #---------------------------------------------------------------------
@@ -249,14 +258,18 @@ def group(gTitle: str, intro: str=""):
 def mcq(qtext: str, answers: MultiChoiceAnswers, id: str=""):
     global qList
     if id:
+        dpr("id=%r", id)
         id = questionManager.getCurrentGroupId() + "-" + id
+        dpr("id=%r", id)
     q = MultiChoiceQuestion(id, qtext, answers)
     questionManager.addQuestion(q)
 
 def adq(qtext: str, id: str=""):
     global qList
     if id:
+        dpr("id=%r", id)
         id = questionManager.getCurrentGroupId() + "-" + id
+        dpr("id=%r", id)
     q = AgreeDisagreeQuestion(id, qtext)
     questionManager.addQuestion(q)
 
