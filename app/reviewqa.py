@@ -45,6 +45,14 @@ def calcGroupTable(userName: str) -> str:
         numQs = len(group.questions)
         numAnswered = len(answeredQs(currentUserName(), group.questions))
         numUnanswered = numQs - numAnswered 
+        if numUnanswered==0:
+            detailsH= form("View <a href='/results/{groupId}' class='green'>"
+                "<i class='fa fa-star'></i> "
+                "Your Results</a>", 
+                groupId = htmlEsc(group.id))
+        else:    
+            detailsH = ("<i class='fa fa-lock'></i> "
+                "<i>answer all questions to unlock details</i>")
         h += form("""
 <tr>
     <td><a href="/group/{groupId}">{groupName}</a></td>
@@ -52,7 +60,7 @@ def calcGroupTable(userName: str) -> str:
         <a href="/answered/{groupId}">{numAnswered}</a></td>
     <td style='text-align:right;'>
         <a href="/ask/{groupId}">{numUnanswered}</a>/{numTotal}</td>
-    <td>(details)</td>
+    <td>{details}</td>
 </tr>            
 """,
             groupId = htmlEsc(group.id),
@@ -61,7 +69,7 @@ def calcGroupTable(userName: str) -> str:
             numAnswered = numAnswered,
             numUnanswered = numUnanswered,
             numTotal = numQs,
-            
+            details = detailsH,
         )
     #//for    
     h += "</table>\n"
@@ -91,6 +99,10 @@ def group(groupId):
         return permission.http403("Group does not exist")
     cun = currentUserName()
     numQs = len(g.questions)
+    numAnswered = 0 # number of questions this user has answered
+    if cun:
+        numAnswered = len(answeredQs(cun, g.questions))
+    numUnanswered = numQs - numAnswered
     
     tem = jinjaEnv.get_template("group.html")
     h = tem.render(
@@ -98,6 +110,8 @@ def group(groupId):
         groupId = htmlEsc(g.id),
         groupTitle = htmlEsc(g.title),
         numQs = numQs,
+        numAnswered = numAnswered,
+        numUnanswered = numUnanswered,
     )
     return h
 

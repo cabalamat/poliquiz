@@ -8,7 +8,9 @@ Information about a group.
 {% block body %}
 <h1><i class='fa fa-check-square-o'></i> Group <tt>[{{groupId}}]</tt> {{groupTitle}}</h1>
 
-<h2><i class='fa fa-info-circle'></i> Introduction to {{groupTitle}}</h2>
+<h2><i class='fa fa-info-circle'></i> Introduction to {{groupTitle}} ({{numQs}})
+</h2>
+<p><i>{{groupTitle}} has {{numQs}} questions.</i></p>
 
 {{group.introH}}
 
@@ -16,8 +18,10 @@ Information about a group.
 <h2>See also</h2>
 
 <ul>
-    <li><a href="/answered/{{groupId}}">Questions you've answered</a></li>
-    <li><a href="/ask/{{groupId}}">Questions you haven't answered</a></li>
+    <li><a href="/answered/{{groupId}}">Questions you've answered</a>
+        ({{numAnswered}}/{{numQs}})</li>
+    <li><a href="/ask/{{groupId}}">Questions you haven't answered</a>
+        ({{numUnanswered}}/{{numQs}})</li>
 </ul>
 
 {% endif %}

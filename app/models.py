@@ -89,14 +89,21 @@ def getUserDemographics(userId: str) -> UserDemographics:
 
 #---------------------------------------------------------------------
 
+AnswerType=Union[str,int]
+
 class Answer(MonDoc):
-    """ an answer by a user to a question """
+    """ an answer by a user to a question 
+    An answer can either be a string or an integer.
+    If it is an integer, (ans) must be "" and ani is the answer
+    If it is a string, ans cannot be "" and ani must be 0.
+    """
     
     user_id = FK(userdb.User)
     question_id = StrField(desc="ID of question")
     savedAt = DateTimeField(desc="when the question was answered", 
         readOnly=True)
-    ans = StrField(desc="the user's answer to the question") 
+    ans = StrField(desc="the user's answer to the question, as a string") 
+    ani = StrField(desc="the user's answer to the question, as an integer") 
  
     @classmethod
     def classLogo(cls):
@@ -108,17 +115,35 @@ class Answer(MonDoc):
 Answer.autopages()    
 
     
-def saveAnswer(userId: str, questionId: str, ansVal: str):
+def saveAnswer(userId: str, questionId: str, ansVal: AnswerType):
     """ save an answer to a questiion in ther database.
-    remove all existing answrs to that question by that user.
+    remove all existing answers to that question by that user.
     """
     Answer.delete_many({
         'user_id': userId, 
         'question_id': questionId})
+    
+    if isinstance(ansVal,int):
+        ani = ansVal
+        ans = ""
+    if isinstance(ansVal,str):
+        try:
+           ansInt = int(ansVal)
+        except:   
+            ani = 0
+            assert ansVal!=""
+            ans = ansVal
+        else:
+            ani = ansInt
+            ans = ""
+    else:
+        assert False
+        
     ans = Answer(
         user_id = userId,
         question_id = questionId,
-        ans = ansVal)
+        ans = ans,
+        ani = ani)
     ans.save()
 
 #---------------------------------------------------------------------
